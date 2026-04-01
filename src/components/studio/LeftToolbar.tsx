@@ -3,11 +3,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import {
   TbPointer, TbStack2, TbCopy, TbCut, TbArrowsMove,
   TbMountain, TbArrowBack, TbSettings, TbTrash,
-  TbPencil, TbBulb
+  TbPencil, TbBulb, TbFileImport
 } from "react-icons/tb";
 
 const tools = [
   { icon: TbPointer, label: "Select", id: "select" },
+  { icon: TbFileImport, label: "Import DXF", id: "import" },
   { icon: TbStack2, label: "Layers", id: "layers" },
   { icon: TbCopy, label: "Copy", id: "copy" },
   { icon: TbCut, label: "Floor Splitter", id: "split" },

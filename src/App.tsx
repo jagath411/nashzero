@@ -14,8 +14,8 @@ import MassingSelectionPage from "@/pages/MassingSelectionPage";
 import StudioPage from "@/pages/StudioPage";
 import DashboardPage from "@/pages/DashboardPage";
 import SolarDashboard from "@/pages/SolarDashboard";
-import EnergyDashboard from "@/pages/EnergyDashboard";
-import MapPage from "@/pages/MapPage";
+import WindWeatherDashboard from "@/pages/WindWeatherDashboard";
+import DaylightAnalysisPage from "@/pages/DaylightAnalysisPage";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
@@ -44,8 +44,8 @@ const App = () => (
                 <Route path="solar" element={<SolarDashboard />} />
                 <Route path="energy" element={<EnergyDashboard />} />
                 <Route path="map" element={<MapPage />} />
-                <Route path="daylight" element={<PlaceholderPage title="Daylight Analysis" subtitle="Daylight factor, SDi, UDi metrics" />} />
-                <Route path="wind" element={<PlaceholderPage title="Wind & Weather" subtitle="Micro-climate and wind analysis" />} />
+                <Route path="daylight" element={<DaylightAnalysisPage />} />
+                <Route path="wind" element={<WindWeatherDashboard />} />
                 <Route path="uhi" element={<PlaceholderPage title="Urban Heat Island" subtitle="UHI metrics and reduction strategies" />} />
                 <Route path="hydrology" element={<PlaceholderPage title="Hydrology" subtitle="Rainwater harvesting and water balance" />} />
                 <Route path="sustainability" element={<PlaceholderPage title="Sustainability" subtitle="LEED, WELL, and material lifecycle analysis" />} />

@@ -11,16 +11,41 @@ import RadiationPanel from "@/components/studio/RadiationPanel";
 import ShadowControlPanel from "@/components/studio/ShadowControlPanel";
 import LandscapeSelector from "@/components/studio/LandscapeSelector";
 import TreePlacementPanel from "@/components/studio/TreePlacementPanel";
-import ShapeDrawDialog from "@/components/studio/ShapeDrawDialog";
+import DXFImport from "@/components/studio/DXFImport";
 
 interface BuildingBlock {
   id: string;
   position: [number, number, number];
   dimensions: [number, number, number];
   color: string;
+  type?: 'box' | 'dxf';
+  geometry?: THREE.BufferGeometry;
 }
 
 function Building({ block, selected, onClick }: { block: BuildingBlock; selected: boolean; onClick: () => void }) {
+  if (block.type === 'dxf' && block.geometry) {
+    return (
+      <mesh
+        position={block.position}
+        onClick={(e) => { e.stopPropagation(); onClick(); }}
+        castShadow receiveShadow
+      >
+        <primitive object={block.geometry} />
+        <meshStandardMaterial
+          color={selected ? "#3b82f6" : block.color}
+          transparent opacity={selected ? 0.9 : 0.8}
+          roughness={0.4} metalness={0.1}
+        />
+        {selected && (
+          <lineSegments>
+            <edgesGeometry args={[block.geometry]} />
+            <lineBasicMaterial color="#3b82f6" linewidth={2} />
+          </lineSegments>
+        )}
+      </mesh>
+    );
+  }
+
   return (
     <mesh
       position={[block.position[0], block.position[1] + block.dimensions[1] / 2, block.position[2]]}
@@ -90,20 +115,30 @@ export default function StudioPage() {
   const [showShapeDialog, setShowShapeDialog] = useState(false);
   const [showLandscape, setShowLandscape] = useState(false);
   const [showTrees, setShowTrees] = useState(false);
+  const [showDXFImport, setShowDXFImport] = useState(false);
 
-  const addBlock = useCallback(() => {
-    const id = `block-${Date.now()}`;
+  const handleDXFImport = useCallback((geometry: THREE.BufferGeometry, position: [number, number, number]) => {
+    const id = `dxf-${Date.now()}`;
     setBlocks((prev) => [
       ...prev,
-      { id, position: [Math.random() * 20 - 10, 0, Math.random() * 20 - 10], dimensions: [6, 10, 6], color: "#fbbf24" },
+      {
+        id,
+        position,
+        dimensions: [0, 0, 0], // Not used for DXF
+        color: "#64748b",
+        type: 'dxf',
+        geometry
+      },
     ]);
     setSelectedId(id);
+    setShowDXFImport(false);
   }, []);
 
   const handleLeftTool = (id: string) => {
     setLeftTool(id);
     if (id === "draw") setShowShapeDialog(true);
     if (id === "terrain") setShowLandscape(true);
+    if (id === "import") setShowDXFImport(true);
     if (id === "delete" && selectedId) {
       setBlocks((prev) => prev.filter((b) => b.id !== selectedId));
       setSelectedId(null);
@@ -121,6 +156,9 @@ export default function StudioPage() {
 
       {/* Shape draw dialog */}
       <ShapeDrawDialog open={showShapeDialog} onSelect={(s) => { setShowShapeDialog(false); addBlock(); }} onClose={() => setShowShapeDialog(false)} />
+
+      {/* DXF import dialog */}
+      {showDXFImport && <DXFImport onImport={handleDXFImport} onClose={() => setShowDXFImport(false)} />}
 
       {/* Top bar */}
       <div className="h-12 bg-card border-b border-border flex items-center justify-between px-4 shrink-0">
