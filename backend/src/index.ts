@@ -11,7 +11,7 @@ import buildingRoutes from './routes/buildings';
 import analysisRoutes from './routes/analysis';
 
 // Load environment variables
-dotenv.config();
+dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : '.env' });
 
 const app: Express = express();
 const port = process.env.PORT || 4000;

@@ -16,6 +16,8 @@ import DashboardPage from "@/pages/DashboardPage";
 import SolarDashboard from "@/pages/SolarDashboard";
 import WindWeatherDashboard from "@/pages/WindWeatherDashboard";
 import DaylightAnalysisPage from "@/pages/DaylightAnalysisPage";
+import EnergyDashboard from "@/pages/EnergyDashboard";
+import MapPage from "@/pages/MapPage";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
